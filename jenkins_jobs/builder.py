@@ -55,6 +55,9 @@ class JenkinsManager(object):
         else:
             self.jenkins = jenkins.Jenkins(url, user, password)
 
+        if "bearer_token" in jjb_config.jenkins.keys() and jjb_config.jenkins["bearer_token"]:
+            self.jenkins.auth = "Bearer " + jjb_config.jenkins["bearer_token"]
+
         self.cache = JobCache(jjb_config.jenkins['url'],
                               flush=jjb_config.builder['flush_cache'])
 

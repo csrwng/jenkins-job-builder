@@ -129,6 +129,7 @@ class JJBConfig(object):
         self.user = None
         self.password = None
         self.section = config_section
+        self.bearer_token = None
         self.plugins_info = None
         self.timeout = builder._DEFAULT_TIMEOUT
         self.allow_empty_variables = None
@@ -236,6 +237,12 @@ class JJBConfig(object):
         except (TypeError, configparser.NoOptionError):
             pass
 
+        try:
+            self.bearer_token = config.get('jenkins', 'bearer_token')
+        except (TypeError, configparser.NoOptionError):
+            pass
+
+
         # None -- no timeout, blocking mode; same as setblocking(True)
         # 0.0 -- non-blocking mode; same as setblocking(False) <--- default
         # > 0 -- timeout mode; operations time out after timeout seconds
@@ -263,6 +270,7 @@ class JJBConfig(object):
         self.jenkins['user'] = self.user
         self.jenkins['password'] = self.password
         self.jenkins['timeout'] = self.timeout
+        self.jenkins['bearer_token'] = self.bearer_token
 
         self.builder['ignore_cache'] = self.ignore_cache
         self.builder['flush_cache'] = self.flush_cache
